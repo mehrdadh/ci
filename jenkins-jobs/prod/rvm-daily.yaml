@@ -1,0 +1,32 @@
+- job:
+    name: rvm-images-ci
+    project-type: folder
+- job:
+    name: rvm-images-ci/daily-rvm-image-rebuild
+    project-type: pipeline
+    description: 'Daily build of RVM images'
+    disabled: false
+    concurrent: true
+    parameters:
+      - string:
+          name: TVM_GIT_REV
+          default: rvm_build_scripts
+      - string:
+          name: TVM_GIT_REPO_URL
+          default: https://github.com/mehrdadh/tvm
+      - string:
+          name: DOCKERHUB_USER
+          default: tlcpackstagingoctoml
+    triggers:
+      - timed: "@daily"
+    pipeline-scm:
+      scm:
+        - git:
+            url: 'https://github.com/mehrdadh/tlcpack.git'
+            credentials-id: 'jenkins-reader-tlcpack'
+            branches:
+              - main
+            refspec: +refs/heads/*:refs/remotes/@{remote}/*
+      script-path: jenkins/JenkinsFile-rebuild-rvm-images
+    days-to-keep: 10
+    number-to-keep: 100
