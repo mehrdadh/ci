@@ -15,7 +15,7 @@
           name: TVM_GIT_REPO_URL
           default: https://github.com/mehrdadh/tvm
       - string:
-          name: DOCKERHUB_USER
+          name: VAGRANTHUB_USER
           default: tlcpackstagingoctoml
     triggers:
       - timed: "@daily"
